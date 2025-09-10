@@ -98,19 +98,19 @@ const CategoriesSection = ({ onCategorySelect }: CategoriesSectionProps) => {
 
   if (loading) {
     return (
-      <section className="py-16 bg-secondary/30">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+      <section className="py-6 sm:py-16 bg-secondary/30">
+        <div className="container mx-auto px-3 sm:px-4">
+          <div className="text-center mb-6 sm:mb-12">
+            <h2 className="text-xl sm:text-3xl md:text-4xl font-bold text-foreground mb-2 sm:mb-4">
               Explore nossas categorias
             </h2>
           </div>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-8 gap-4">
+          <div className="grid grid-cols-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-8 gap-2 sm:gap-4">
             {[...Array(8)].map((_, i) => (
               <Card key={i} className="overflow-hidden">
-                <CardContent className="p-3 sm:p-6 text-center">
-                  <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-gray-200 animate-pulse mx-auto mb-2 sm:mb-4" />
-                  <div className="h-3 sm:h-4 bg-gray-200 animate-pulse rounded" />
+                <CardContent className="p-2 sm:p-3 md:p-6 text-center">
+                  <div className="w-8 h-8 sm:w-12 sm:h-12 md:w-16 md:h-16 rounded-full bg-gray-200 animate-pulse mx-auto mb-1 sm:mb-2 md:mb-4" />
+                  <div className="h-2 sm:h-3 md:h-4 bg-gray-200 animate-pulse rounded" />
                 </CardContent>
               </Card>
             ))}
@@ -120,18 +120,18 @@ const CategoriesSection = ({ onCategorySelect }: CategoriesSectionProps) => {
     );
   }
   return (
-    <section className="py-16 bg-secondary/30">
-      <div className="container mx-auto px-4">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+    <section className="py-6 sm:py-16 bg-secondary/30">
+      <div className="container mx-auto px-3 sm:px-4">
+        <div className="text-center mb-6 sm:mb-12">
+          <h2 className="text-xl sm:text-3xl md:text-4xl font-bold text-foreground mb-2 sm:mb-4">
             Explore nossas categorias
           </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+          <p className="text-sm sm:text-lg text-muted-foreground max-w-2xl mx-auto hidden sm:block">
             Encontre exatamente o que você procura em nossa ampla variedade de produtos
           </p>
         </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-3 sm:gap-4">
+        <div className="grid grid-cols-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-2 sm:gap-3 md:gap-4">
           {categories.map((category, index) => {
             const IconComponent = getCategoryIcon(category.slug);
             const colorClass = getCategoryColor(index);
@@ -143,7 +143,7 @@ const CategoriesSection = ({ onCategorySelect }: CategoriesSectionProps) => {
                 translate="no"
               >
                 <CardContent 
-                  className="p-3 sm:p-6 text-center notranslate"
+                  className="p-2 sm:p-3 md:p-6 text-center notranslate"
                   onClick={(e) => {
                     e.preventDefault();
                     e.stopPropagation();
@@ -160,10 +160,10 @@ const CategoriesSection = ({ onCategorySelect }: CategoriesSectionProps) => {
                     }
                   }}
                 >
-                  <div className={`w-12 h-12 sm:w-16 sm:h-16 rounded-full ${colorClass} flex items-center justify-center mx-auto mb-2 sm:mb-4 group-hover:scale-110 transition-transform duration-300`}>
-                    <IconComponent className="h-6 w-6 sm:h-8 sm:w-8" />
+                  <div className={`w-8 h-8 sm:w-12 sm:h-12 md:w-16 md:h-16 rounded-full ${colorClass} flex items-center justify-center mx-auto mb-1 sm:mb-2 md:mb-4 group-hover:scale-110 transition-transform duration-300`}>
+                    <IconComponent className="h-4 w-4 sm:h-6 sm:w-6 md:h-8 md:w-8" />
                   </div>
-                  <h3 className="font-semibold text-xs sm:text-sm text-foreground group-hover:text-primary transition-colors leading-tight">
+                  <h3 className="font-medium text-xs sm:text-sm text-foreground group-hover:text-primary transition-colors leading-tight">
                     {category.name}
                   </h3>
                 </CardContent>

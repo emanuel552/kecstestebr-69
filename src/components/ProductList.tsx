@@ -236,47 +236,47 @@ const ProductList = ({ searchTerm, selectedCategory }: ProductListProps) => {
           ))}
         </div>
       ) : (
-        // Grid layout for regular display - improved mobile spacing
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8">
+        // Grid layout for regular display - Mobile Shopee-like layout
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2 sm:gap-4 md:gap-6">
           {products.map((product) => (
             <Card key={product.id} className="overflow-hidden hover:shadow-lg transition-shadow group cursor-pointer">
               <div className="relative" onClick={() => handleProductClick(product)}>
                 <img 
                   src={product.image_url || 'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=400&h=400&fit=crop'} 
                   alt={product.name}
-                  className="w-full h-48 md:h-56 object-cover group-hover:scale-105 transition-transform duration-300"
+                  className="w-full h-32 sm:h-48 md:h-56 object-cover group-hover:scale-105 transition-transform duration-300"
                 />
                 {product.sku && (
-                  <Badge className="absolute top-2 right-2 bg-blue-500 text-white text-xs">
+                  <Badge className="absolute top-1 right-1 bg-blue-500 text-white text-xs px-1 py-0 sm:top-2 sm:right-2 sm:px-2 sm:py-1">
                     {product.sku}
                   </Badge>
                 )}
                 <Button
                   size="icon"
-                  className="absolute top-2 left-2 bg-white/80 hover:bg-white text-primary opacity-0 group-hover:opacity-100 transition-opacity"
+                  className="absolute top-1 left-1 bg-white/80 hover:bg-white text-primary opacity-0 group-hover:opacity-100 transition-opacity w-6 h-6 sm:w-8 sm:h-8 sm:top-2 sm:left-2"
                   onClick={(e) => {
                     e.stopPropagation();
                     handleProductClick(product);
                   }}
                 >
-                  <Eye className="h-4 w-4" />
+                  <Eye className="h-3 w-3 sm:h-4 sm:w-4" />
                 </Button>
               </div>
 
-              <CardContent className="p-4 md:p-6">
-                <h3 className="font-semibold mb-3 line-clamp-2 text-base md:text-lg cursor-pointer hover:text-primary" 
+              <CardContent className="p-2 sm:p-4 md:p-6">
+                <h3 className="font-medium text-xs sm:text-base md:text-lg text-foreground mb-2 sm:mb-3 line-clamp-2 cursor-pointer hover:text-primary" 
                     onClick={() => handleProductClick(product)}>
                   {product.name}
                 </h3>
                 
                 {product.description && (
-                  <p className="text-sm text-gray-600 mb-4 line-clamp-2">
+                  <p className="text-xs text-gray-600 mb-2 sm:mb-4 line-clamp-1 sm:line-clamp-2 hidden sm:block">
                     {product.description}
                   </p>
                 )}
 
-                <div className="mb-4">
-                  <div className="text-xl md:text-2xl font-bold text-blue-600 mb-1">
+                <div className="mb-2 sm:mb-4">
+                  <div className="text-sm sm:text-xl md:text-2xl font-bold text-blue-600 mb-1">
                     R$ {(profile?.setor === 'revenda' ? product.price_revenda : product.price_varejo)?.toLocaleString('pt-BR', { minimumFractionDigits: 2 }) || '0,00'}
                   </div>
                   {profile?.setor === 'revenda' && (
@@ -287,11 +287,12 @@ const ProductList = ({ searchTerm, selectedCategory }: ProductListProps) => {
                 </div>
 
                 <Button 
-                  className="w-full bg-blue-600 hover:bg-blue-700 text-white h-10 md:h-12 text-sm md:text-base"
+                  className="w-full bg-blue-600 hover:bg-blue-700 text-white h-7 sm:h-10 md:h-12 text-xs sm:text-sm md:text-base"
                   onClick={() => handleWhatsAppContact(product)}
                 >
-                  <ShoppingCart className="h-4 w-4 mr-2" />
-                  Consultar
+                  <ShoppingCart className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
+                  <span className="hidden sm:inline">Consultar</span>
+                  <span className="sm:hidden">Comprar</span>
                 </Button>
               </CardContent>
             </Card>

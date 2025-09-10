@@ -1,4 +1,4 @@
-import { Search, User, LogOut, MessageCircle } from "lucide-react";
+import { Search, User, LogOut, MessageCircle, Tags } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -71,33 +71,29 @@ const Header = ({
       </div>
 
       {/* Main header */}
-      <div className="container mx-auto px-4 py-4">
-        <div className="flex items-center justify-between gap-4">
+      <div className="container mx-auto px-3 py-3">
+        <div className="flex items-center justify-between gap-2">
           {/* Logo */}
-          <div className="flex items-center gap-4">
-            <h1 className="text-2xl font-bold bg-gradient-primary bg-clip-text text-transparent animate-fade-in">
+          <div className="flex items-center">
+            <h1 className="text-lg sm:text-2xl font-bold bg-gradient-primary bg-clip-text text-transparent animate-fade-in">
               KECINFORSTORE
             </h1>
           </div>
 
           {/* Search and Filters */}
-          <div className="flex-1 max-w-2xl mx-4">
-            <div className="flex gap-2">
-              {/* Search Input - Mobile: Icon only, Desktop: Full */}
+          <div className="flex-1 max-w-2xl mx-2">
+            <div className="flex gap-1 sm:gap-2">
+              {/* Search Input */}
               <div className="relative flex-1">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <Search className="absolute left-2 sm:left-3 top-1/2 transform -translate-y-1/2 h-3 w-3 sm:h-4 sm:w-4 text-muted-foreground" />
                 <Input
-                  placeholder="Buscar produtos..."
+                  placeholder="Buscar..."
                   value={searchTerm}
                   onChange={(e) => {
                     console.log('🔍 Search input changed:', e.target.value);
                     onSearchChange(e.target.value);
                   }}
-                  onInput={(e) => {
-                    console.log('🔍 Search input event:', e.currentTarget.value);
-                    onSearchChange(e.currentTarget.value);
-                  }}
-                  className="pl-10 h-10 sm:placeholder:opacity-100 placeholder:opacity-0 touch-manipulation"
+                  className="pl-7 sm:pl-10 h-8 sm:h-10 text-sm placeholder:text-xs sm:placeholder:text-sm touch-manipulation"
                   autoComplete="off"
                   autoCorrect="off"
                   autoCapitalize="off"
@@ -105,8 +101,8 @@ const Header = ({
                 />
               </div>
 
-              {/* Category Filter - Hidden on mobile, shown on tablet+ */}
-              <div className="hidden sm:block min-w-[140px]">
+              {/* Category Filter - Icon only on mobile */}
+              <div className="w-8 sm:min-w-[140px]">
                 <Select 
                   value={selectedCategory} 
                   onValueChange={(value) => {
@@ -114,8 +110,11 @@ const Header = ({
                     onCategoryChange(value);
                   }}
                 >
-                  <SelectTrigger className="h-10 touch-manipulation">
-                    <SelectValue placeholder="Categorias" />
+                  <SelectTrigger className="h-8 sm:h-10 w-8 sm:w-auto px-1 sm:px-3 touch-manipulation">
+                    <div className="flex items-center">
+                      <Tags className="h-3 w-3 sm:h-4 sm:w-4" />
+                      <SelectValue className="hidden sm:block ml-2" placeholder="Categorias" />
+                    </div>
                   </SelectTrigger>
                   <SelectContent className="bg-background border shadow-md z-50 max-h-60 overflow-y-auto">
                     <SelectItem value="all">Todas</SelectItem>
@@ -131,45 +130,28 @@ const Header = ({
           </div>
 
           {/* User Info and Actions */}
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1 sm:gap-2">
             {/* WhatsApp Button */}
             <Button
               variant="outline"
               size="sm"
               onClick={() => redirectToWhatsApp()}
-              className="bg-green-500 hover:bg-green-600 text-white border-green-500 hidden sm:inline-flex"
+              className="bg-green-500 hover:bg-green-600 text-white border-green-500 w-8 h-8 sm:w-auto sm:h-auto p-1 sm:px-3 sm:py-2"
             >
-              <MessageCircle className="h-4 w-4 mr-2" />
-              WhatsApp {currentSector === 'revenda' ? 'Revenda' : 'Varejo'}
+              <MessageCircle className="h-3 w-3 sm:h-4 sm:w-4 sm:mr-2" />
+              <span className="hidden sm:inline">WhatsApp {currentSector === 'revenda' ? 'Revenda' : 'Varejo'}</span>
             </Button>
             
-            {/* Mobile WhatsApp Button */}
-            <Button
-              variant="outline"
-              size="icon"
-              onClick={() => redirectToWhatsApp()}
-              className="bg-green-500 hover:bg-green-600 text-white border-green-500 sm:hidden"
-            >
-              <MessageCircle className="h-4 w-4" />
-            </Button>
             {user && profile ? (
-              <div className="flex items-center gap-2">
-                <div className="text-sm hidden sm:block">
-                  <span className="text-muted-foreground">Olá, </span>
-                  <span className="font-medium">{profile.email}</span>
-                  {profile.is_admin && (
-                    <span className="ml-2 text-xs bg-primary text-primary-foreground px-2 py-1 rounded">
-                      Admin
-                    </span>
-                  )}
-                </div>
+              <div className="flex items-center gap-1 sm:gap-2">
                 {profile.is_admin && (
                   <Button variant="outline" size="sm" onClick={onAdminClick} className="hidden sm:inline-flex">
                     Painel Admin
                   </Button>
                 )}
-                <Button variant="ghost" size="icon" onClick={handleSignOut}>
-                  <LogOut className="h-4 w-4" />
+                <Button variant="ghost" size="sm" onClick={handleSignOut} className="w-8 h-8 sm:w-auto sm:h-auto p-1 sm:px-3 sm:py-2">
+                  <LogOut className="h-3 w-3 sm:h-4 sm:w-4" />
+                  <span className="hidden sm:inline ml-2">Sair</span>
                 </Button>
               </div>
             ) : (
@@ -181,10 +163,9 @@ const Header = ({
                   console.log('🔑 Auth button clicked');
                   onAuthClick();
                 }}
-                className="border-primary text-primary hover:bg-primary hover:text-primary-foreground touch-manipulation"
-                size="sm"
+                className="border-primary text-primary hover:bg-primary hover:text-primary-foreground touch-manipulation w-8 h-8 sm:w-auto sm:h-auto p-1 sm:px-3 sm:py-2"
               >
-                <User className="h-4 w-4 sm:mr-2" />
+                <User className="h-3 w-3 sm:h-4 sm:w-4 sm:mr-2" />
                 <span className="hidden sm:inline">Login Revenda</span>
               </Button>
             )}

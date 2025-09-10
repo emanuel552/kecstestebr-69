@@ -155,53 +155,53 @@ const FeaturedProducts = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2 sm:gap-6">
           {currentProducts.map((product) => (
             <Card key={product.id} className="overflow-hidden hover:shadow-lg transition-shadow group cursor-pointer flex flex-col h-full">
-              <div className="relative w-full h-48" onClick={() => handleProductClick(product)}>
+              <div className="relative w-full h-32 sm:h-48" onClick={() => handleProductClick(product)}>
                 <img 
                   src={product.image_url || 'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=400&h=400&fit=crop'} 
                   alt={product.name}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                 />
-                <Badge className="absolute top-3 left-3 bg-primary text-primary-foreground">
-                  Em Destaque
+                <Badge className="absolute top-1 left-1 bg-primary text-primary-foreground text-xs px-1 py-0 sm:top-3 sm:left-3 sm:px-2 sm:py-1">
+                  Destaque
                 </Badge>
                 <Button
                   size="icon"
                   variant="ghost"
-                  className="absolute top-3 right-3 bg-white/80 hover:bg-white text-foreground opacity-0 group-hover:opacity-100 transition-opacity"
+                  className="absolute top-1 right-1 bg-white/80 hover:bg-white text-foreground opacity-0 group-hover:opacity-100 transition-opacity w-6 h-6 sm:w-8 sm:h-8 sm:top-3 sm:right-3"
                   onClick={(e) => {
                     e.stopPropagation();
                     handleProductClick(product);
                   }}
                 >
-                  <Eye className="h-4 w-4" />
+                  <Eye className="h-3 w-3 sm:h-4 sm:w-4" />
                 </Button>
                 {product.sku && (
-                  <Badge className="absolute bottom-3 right-3 bg-blue-500 text-white text-xs">
+                  <Badge className="absolute bottom-1 right-1 bg-blue-500 text-white text-xs px-1 py-0 sm:bottom-3 sm:right-3 sm:px-2 sm:py-1">
                     {product.sku}
                   </Badge>
                 )}
               </div>
 
-              <CardContent className="p-4 flex flex-col flex-1 justify-between min-h-[200px]">
+              <CardContent className="p-2 sm:p-4 flex flex-col flex-1 justify-between min-h-[120px] sm:min-h-[200px]">
                 <div className="flex-1">
-                  <h3 className="font-semibold text-base text-foreground mb-2 cursor-pointer hover:text-primary transition-colors line-clamp-2" 
+                  <h3 className="font-medium text-xs sm:text-base text-foreground mb-1 sm:mb-2 cursor-pointer hover:text-primary transition-colors line-clamp-2" 
                       onClick={() => handleProductClick(product)}>
                     {product.name}
                   </h3>
                   
                   {product.description && (
-                    <p className="text-sm text-muted-foreground mb-3 line-clamp-2">
+                    <p className="text-xs text-muted-foreground mb-2 line-clamp-1 sm:line-clamp-2 hidden sm:block">
                       {product.description}
                     </p>
                   )}
                 </div>
 
-                <div className="space-y-3 mt-auto">
+                <div className="space-y-2 sm:space-y-3 mt-auto">
                   <div>
-                    <div className="text-xl font-bold text-primary">
+                    <div className="text-sm sm:text-xl font-bold text-primary">
                       R$ {getPrice(product).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
                     </div>
                     {profile?.setor === 'revenda' && (
@@ -212,11 +212,12 @@ const FeaturedProducts = () => {
                   </div>
 
                   <Button 
-                    className="bg-gradient-primary hover:opacity-90 font-semibold w-full h-10 text-sm"
+                    className="bg-gradient-primary hover:opacity-90 font-medium w-full h-7 sm:h-10 text-xs sm:text-sm"
                     onClick={() => handleWhatsAppContact(product)}
                   >
-                    <MessageCircle className="h-4 w-4 mr-2" />
-                    Consultar
+                    <MessageCircle className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
+                    <span className="hidden sm:inline">Consultar</span>
+                    <span className="sm:hidden">Comprar</span>
                   </Button>
                 </div>
               </CardContent>
