@@ -10,11 +10,9 @@ import BannerCarousel from '@/components/BannerCarousel';
 import ChatBot from '@/components/ChatBot';
 import AuthPage from '@/components/Auth/AuthPage';
 import AdminDashboard from '@/components/Admin/AdminDashboard';
-import { useAuth } from '@/hooks/useAuth';
 
 
 const Index = () => {
-  const { loading } = useAuth();
   const [showAuth, setShowAuth] = useState(false);
   const [showAdmin, setShowAdmin] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
@@ -34,21 +32,6 @@ const Index = () => {
     console.log('📝 Index - Category changed:', category);
     setSelectedCategory(category);
   };
-
-  // Show loading screen while auth is initializing
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
-        <div className="flex flex-col items-center gap-4">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
-          <h2 className="text-xl font-semibold bg-gradient-primary bg-clip-text text-transparent">
-            KECINFORSTORE
-          </h2>
-          <p className="text-muted-foreground">Carregando...</p>
-        </div>
-      </div>
-    );
-  }
 
   if (showAuth) {
     return <AuthPage onBack={() => setShowAuth(false)} />;
