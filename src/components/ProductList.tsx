@@ -104,9 +104,11 @@ const ProductList = ({ searchTerm, selectedCategory }: ProductListProps) => {
     }
   };
 
-  const handleWhatsAppContact = () => {
-    const phoneNumber = '5511999999999';
-    const message = 'Olá! Gostaria de saber mais sobre os produtos da KECINFORSTORE.';
+  const handleWhatsAppContact = (product?: Product) => {
+    const phoneNumber = '558534833373';
+    const message = product 
+      ? `Olá! Gostaria de saber mais sobre o produto: ${product.name} (SKU: ${product.sku})`
+      : 'Olá! Gostaria de saber mais sobre os produtos da KECINFORSTORE.';
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
     window.open(whatsappUrl, '_blank');
   };
@@ -152,7 +154,7 @@ const ProductList = ({ searchTerm, selectedCategory }: ProductListProps) => {
           {searchTerm || selectedCategory !== 'all' ? `Produtos (${products.length})` : `Todos os Produtos (${products.length})`}
         </h2>
         <Button
-          onClick={handleWhatsAppContact}
+          onClick={() => handleWhatsAppContact()}
           className="bg-green-500 hover:bg-green-600 text-white"
         >
           <MessageCircle className="h-4 w-4 mr-2" />
@@ -222,7 +224,7 @@ const ProductList = ({ searchTerm, selectedCategory }: ProductListProps) => {
 
                     <Button 
                       className="bg-blue-600 hover:bg-blue-700 text-white px-6 h-10 md:h-12 w-full sm:w-auto"
-                      onClick={handleWhatsAppContact}
+                      onClick={() => handleWhatsAppContact(product)}
                     >
                       <ShoppingCart className="h-4 w-4 mr-2" />
                       Consultar
@@ -286,7 +288,7 @@ const ProductList = ({ searchTerm, selectedCategory }: ProductListProps) => {
 
                 <Button 
                   className="w-full bg-blue-600 hover:bg-blue-700 text-white h-10 md:h-12 text-sm md:text-base"
-                  onClick={handleWhatsAppContact}
+                  onClick={() => handleWhatsAppContact(product)}
                 >
                   <ShoppingCart className="h-4 w-4 mr-2" />
                   Consultar
