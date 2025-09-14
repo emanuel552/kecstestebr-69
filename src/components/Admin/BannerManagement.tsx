@@ -5,7 +5,6 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { supabase } from '@/integrations/supabase/client';
@@ -18,17 +17,10 @@ interface Banner {
   link_url?: string;
   is_active: boolean;
   order_position: number;
-  category_id?: string;
-}
-
-interface Category {
-  id: string;
-  name: string;
 }
 
 const BannerManagement = () => {
   const [banners, setBanners] = useState<Banner[]>([]);
-  const [categories, setCategories] = useState<Category[]>([]);
   const [isOpen, setIsOpen] = useState(false);
   const [editingBanner, setEditingBanner] = useState<Banner | null>(null);
   const [loading, setLoading] = useState(false);
@@ -37,15 +29,13 @@ const BannerManagement = () => {
     image_url: '',
     link_url: '',
     is_active: true,
-    order_position: 0,
-    category_id: ''
+    order_position: 0
   });
 
   const { toast } = useToast();
 
   useEffect(() => {
     fetchBanners();
-    fetchCategories();
   }, []);
 
   const fetchBanners = async () => {
@@ -59,25 +49,6 @@ const BannerManagement = () => {
       setBanners(data || []);
     } catch (error) {
       console.error('Error fetching banners:', error);
-      toast({
-        title: "Erro",
-        description: "Erro ao carregar banners. Verifique se a tabela foi atualizada corretamente.",
-        variant: "destructive",
-      });
-    }
-  };
-
-  const fetchCategories = async () => {
-    try {
-      const { data, error } = await supabase
-        .from('categories')
-        .select('id, name')
-        .order('name', { ascending: true });
-
-      if (error) throw error;
-      setCategories(data || []);
-    } catch (error) {
-      console.error('Error fetching categories:', error);
     }
   };
 
@@ -87,8 +58,7 @@ const BannerManagement = () => {
       image_url: '',
       link_url: '',
       is_active: true,
-      order_position: banners.length,
-      category_id: ''
+      order_position: banners.length
     });
     setEditingBanner(null);
   };
@@ -100,8 +70,7 @@ const BannerManagement = () => {
       image_url: banner.image_url,
       link_url: banner.link_url || '',
       is_active: banner.is_active,
-      order_position: banner.order_position,
-      category_id: banner.category_id || ''
+      order_position: banner.order_position
     });
     setIsOpen(true);
   };
@@ -111,18 +80,13 @@ const BannerManagement = () => {
     setLoading(true);
 
     try {
-      const bannerData: any = {
+      const bannerData = {
         title: formData.title,
         image_url: formData.image_url,
         link_url: formData.link_url || null,
         is_active: formData.is_active,
         order_position: formData.order_position
       };
-
-      // Só adiciona category_id se a string não estiver vazia
-      if (formData.category_id && formData.category_id.trim() !== '') {
-        bannerData.category_id = formData.category_id;
-      }
 
       let error;
       if (editingBanner) {
@@ -255,26 +219,6 @@ const BannerManagement = () => {
                 </div>
 
                 <div>
-                  <Label htmlFor="category_id">Categoria (opcional)</Label>
-                  <Select
-                    value={formData.category_id}
-                    onValueChange={(value) => setFormData(prev => ({ ...prev, category_id: value }))}
-                  >
-                    <SelectTrigger>
-                      <SelectValue placeholder="Selecione uma categoria" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="">Nenhuma categoria</SelectItem>
-                      {categories.map((category) => (
-                        <SelectItem key={category.id} value={category.id}>
-                          {category.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                <div>
                   <Label htmlFor="order_position">Posição</Label>
                   <Input
                     id="order_position"
@@ -312,7 +256,6 @@ const BannerManagement = () => {
           <TableHeader>
             <TableRow>
               <TableHead>Título</TableHead>
-              <TableHead>Categoria</TableHead>
               <TableHead>Posição</TableHead>
               <TableHead>Status</TableHead>
               <TableHead>Ações</TableHead>
@@ -322,9 +265,6 @@ const BannerManagement = () => {
             {banners.map((banner) => (
               <TableRow key={banner.id}>
                 <TableCell className="font-medium">{banner.title}</TableCell>
-                <TableCell>
-                  {banner.category_id ? 'Com categoria' : 'Sem categoria'}
-                </TableCell>
                 <TableCell>{banner.order_position}</TableCell>
                 <TableCell>
                   <div className="flex items-center gap-2">
