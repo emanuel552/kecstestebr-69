@@ -52,19 +52,18 @@ const BannerManagement = () => {
     try {
       const { data, error } = await supabase
         .from('banners')
-        .select(`
-          *,
-          categories (
-            id,
-            name
-          )
-        `)
+        .select('*')
         .order('order_position', { ascending: true });
 
       if (error) throw error;
       setBanners(data || []);
     } catch (error) {
       console.error('Error fetching banners:', error);
+      toast({
+        title: "Erro",
+        description: "Erro ao carregar banners. Verifique se a tabela foi atualizada corretamente.",
+        variant: "destructive",
+      });
     }
   };
 
@@ -112,14 +111,18 @@ const BannerManagement = () => {
     setLoading(true);
 
     try {
-      const bannerData = {
+      const bannerData: any = {
         title: formData.title,
         image_url: formData.image_url,
         link_url: formData.link_url || null,
         is_active: formData.is_active,
-        order_position: formData.order_position,
-        category_id: formData.category_id || null
+        order_position: formData.order_position
       };
+
+      // Só adiciona category_id se a string não estiver vazia
+      if (formData.category_id && formData.category_id.trim() !== '') {
+        bannerData.category_id = formData.category_id;
+      }
 
       let error;
       if (editingBanner) {
@@ -320,7 +323,7 @@ const BannerManagement = () => {
               <TableRow key={banner.id}>
                 <TableCell className="font-medium">{banner.title}</TableCell>
                 <TableCell>
-                  {(banner as any).categories?.name || 'Sem categoria'}
+                  {banner.category_id ? 'Com categoria' : 'Sem categoria'}
                 </TableCell>
                 <TableCell>{banner.order_position}</TableCell>
                 <TableCell>
